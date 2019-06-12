@@ -61,9 +61,6 @@ export default class App extends Component
   undoLastDrawing () {
     const currentItem = this.state.data.slice(-1)
     
-    currentItem[0][0].color = 'white'
-    currentItem[0][0].size = 6
-    
     this.setState({currentItem})
   }
 

@@ -63,6 +63,18 @@ export default class Pad extends Component {
   }
 
   shouldComponentUpdate({ tool, items, data, currentItem }, nextState){
+    if(currentItem && currentItem.length){
+      // this.tool.draw(currentItem[0][0], this.props.animate);
+      data.pop()
+      this.ctx.clearRect(0,0, this.canvas.width,this.canvas.height)
+
+      for (let obj of data){
+        this.tool.draw(obj[0], this.props.animate);
+      }
+      
+      this.props.resetCurrent()
+    }
+    
     items
       .filter(item => this.props.items.indexOf(item) === -1)
       .forEach(item => {
@@ -76,11 +88,6 @@ export default class Pad extends Component {
         
         this.tool.draw(obj[0], this.props.animate);
       }
-    }
-
-    if(currentItem && currentItem.length){
-      this.tool.draw(currentItem[0][0], this.props.animate);
-      this.props.resetCurrent()
     }
 
     return true
