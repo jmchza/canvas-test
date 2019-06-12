@@ -23,10 +23,10 @@ export default class Pad extends Component {
     size: PropTypes.number,
     tool: PropTypes.string,
     toolsMap: PropTypes.object,
-    onItemStart: PropTypes.func, // function(stroke:Stroke) { ... }
-    onEveryItemChange: PropTypes.func, // function(idStroke:string, x:number, y:number) { ... }
-    onDebouncedItemChange: PropTypes.func, // function(idStroke, points:Point[]) { ... }
-    onCompleteItem: PropTypes.func, // function(stroke:Stroke) { ... }
+    onItemStart: PropTypes.func, 
+    onEveryItemChange: PropTypes.func, 
+    onDebouncedItemChange: PropTypes.func, 
+    onCompleteItem: PropTypes.func, 
     debounceTime: PropTypes.number,
     current: PropTypes.number,
     data: PropTypes.array
@@ -53,9 +53,7 @@ export default class Pad extends Component {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onDebouncedMove = this.onDebouncedMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
-
   }
-
 
   componentDidMount() {
     this.canvas = findDOMNode(this.canvasRef);
@@ -110,7 +108,6 @@ export default class Pad extends Component {
     const data = this.tool.onMouseMove(...this.getCursorPosition(e));
     data && data[0] && this.props.onEveryItemChange && this.props.onEveryItemChange.apply(null, data);
 
-    // this.setState({lastItem: data})
   }
 
   onMouseUp(e) {

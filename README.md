@@ -1,6 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Prendi app
 
 ## Available Scripts
+
+### `Overview`
+
+For peristency I have decided to opt for the localstorage approach, yes this can be placed into a Redis instance for a more eficient choice.
+I would have liked to write the Pad class with hooks instead but I just wanted to get it across to you, and that is the fastest for now.
+I will push up a new branch tonight with implementation with hooks if you are still interested
+
+### `Installation`
+
+Before you can run this, you need to clone the projet and install the required compoennts as per below:
+
+git clone URL
+npm install
+
 
 In the project directory, you can run:
 
@@ -14,8 +28,10 @@ You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  this command will run nothing at the moment but I have otlined what the idea woudl be for this case.
+  This will take a considerable amount of time to get it right in order to show it
+  
+
 
 ### `npm run build`
 
@@ -25,44 +41,12 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `Docker and more `
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The ap is ready to be deployed into a docker container via docker compose with a nginx server to serve the static folder.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The idea is to use a reverse proxy to serve the static folder
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

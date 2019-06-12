@@ -37,8 +37,6 @@ export default class App extends Component
   }
 
   onNewClickHandler = (current, data) => {
-    console.log('D', current, data)
-    
     let {data: records} = this.state
     const val = current + 1;
 
@@ -52,7 +50,7 @@ export default class App extends Component
 
   }
 
-  saveHandler (e){
+  saveHandler (){
     
     localStorage.setItem('total', parseInt(this.state.clicks, 10))
     localStorage.setItem('history', JSON.stringify(this.state.data))
@@ -60,7 +58,7 @@ export default class App extends Component
     this.setState({total: parseInt(this.state.clicks, 10)})
   }
 
-  undoLastDrawing (e) {
+  undoLastDrawing () {
     const currentItem = this.state.data.slice(-1)
     
     currentItem[0][0].color = 'white'
@@ -70,7 +68,6 @@ export default class App extends Component
   }
 
   resetCurrent = () =>{
-    console.log('reseting')
     this.setState({currentItem: [], enableUndo: false})
   }
 
