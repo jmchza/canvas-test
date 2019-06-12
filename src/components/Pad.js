@@ -62,7 +62,7 @@ export default class Pad extends Component {
 
   }
 
-  componentWillReceiveProps({ tool, items, data, currentItem }) {
+  shouldComponentUpdate({ tool, items, data, currentItem }, nextState){
     items
       .filter(item => this.props.items.indexOf(item) === -1)
       .forEach(item => {
