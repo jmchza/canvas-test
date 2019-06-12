@@ -82,6 +82,8 @@ export default class Pad extends Component {
       this.tool.draw(currentItem[0][0], this.props.animate);
       this.props.resetCurrent()
     }
+
+    return true
   }
 
   initTool(tool) {
