@@ -18,6 +18,7 @@ export default (context) => {
   };
 
   const drawLine = (item, start, { x, y }) => {
+    // console.log('item.color', item.color)
     context.save();
     context.lineJoin = 'round';
     context.lineCap = 'round';

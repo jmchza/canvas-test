@@ -7,7 +7,7 @@ export const toolsMap = {
   [TOOL_PENCIL]: Pencil,
 };
 
-export default class SketchPad extends Component {
+export default class Pad extends Component {
 
   tool = null;
   interval = null;
@@ -64,26 +64,6 @@ export default class SketchPad extends Component {
 
   }
 
-  // shouldComponentUpdate({ tool, items, data }, nextState){
-  //   items
-  //     .filter(item => this.props.items.indexOf(item) === -1)
-  //     .forEach(item => {
-  //       this.initTool(item.tool);
-  //       this.tool.draw(item, this.props.animate);
-  //     });
-
-  //   this.initTool(tool);
-
-  //   if(data && data.length){
-  //     for (let obj of data){
-  //       this.tool.draw(obj[0], this.props.animate);
-  //     }
-  //     return true
-  //   }
-
-  //   return false
-  // }
-
   componentWillReceiveProps({ tool, items, data, currentItem }) {
     items
       .filter(item => this.props.items.indexOf(item) === -1)
@@ -94,17 +74,16 @@ export default class SketchPad extends Component {
     this.initTool(tool);
 
     if(data && data.length){
-      console.log('TT', data.length)
       for (let obj of data){
         
         this.tool.draw(obj[0], this.props.animate);
       }
     }
 
-    // console.log('isin here', currentItem)
-    // if(currentItem && currentItem.points !== undefined){
-    //   this.tool.draw(currentItem, this.props.animate);
-    // }
+    if(currentItem && currentItem.length){
+      this.tool.draw(currentItem[0][0], this.props.animate);
+      this.props.resetCurrent()
+    }
   }
 
   initTool(tool) {
@@ -113,7 +92,7 @@ export default class SketchPad extends Component {
 
   onMouseDown(e) {
     const data = this.tool.onMouseDown(...this.getCursorPosition(e), this.props.color, this.props.size, this.props.fillColor);
-    console.log('onMouseDown:data', data)
+    
     data && data[0] && this.props.onItemStart && this.props.onItemStart.apply(null, data);
     
     if (this.props.onDebouncedItemChange) {
@@ -166,6 +145,7 @@ export default class SketchPad extends Component {
         onMouseUp={this.onMouseUp}
         width={width}
         height={height}
+        
       />
     );
   }
