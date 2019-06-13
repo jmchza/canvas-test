@@ -19,7 +19,7 @@ export default class App extends Component
       total: 0,
       data: [],
       currentItem:{},
-      enableUndo: false
+      undoEnable: false
     }
 
     this.saveHandler = this.saveHandler.bind(this);
@@ -43,7 +43,7 @@ export default class App extends Component
     if(data) {
       records.push(data)
       
-      this.setState({clicks: val, data: records, enableUndo: true})
+      this.setState({clicks: val, data: records, undoEnable: true})
     }else{
       this.setState({clicks: val})
     }
@@ -69,7 +69,7 @@ export default class App extends Component
   }
 
   render() {
-    const { tool, size, color, items, clicks, data, currentItem, enableUndo } = this.state;
+    const { tool, size, color, items, clicks, data, currentItem, undoEnable } = this.state;
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'stretch',}}>
@@ -79,8 +79,8 @@ export default class App extends Component
             <Button isEnable={true} type="btn btn-danger button" value="&nbsp;" onClickHandlker={(e) => this.setState({color: 'red'})}/>
             <Button isEnable={true} type="btn btn-dark button" value="&nbsp;" onClickHandlker={(e) => this.setState({color: 'black'})}/>
             
-            <Button isEnable={true} type="btn btn-outline-success button" value="Undo last click" 
-              onClickHandlker={this.undoLastDrawing} isEnable={enableUndo}/>
+            <Button type="btn btn-outline-success button" value="Undo last click" 
+              onClickHandlker={this.undoLastDrawing} isEnable={undoEnable} />
             <Button isEnable={true} type="btn btn-outline-success button" value="save" 
               onClickHandlker={this.saveHandler}/>
           </div>
@@ -107,6 +107,7 @@ export default class App extends Component
             data={data}
             currentItem={currentItem}
             resetCurrent={this.resetCurrent}
+            canvasRef={el => this.canvasRef = el}
           />
         </div>
         
