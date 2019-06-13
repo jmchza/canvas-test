@@ -37,7 +37,7 @@ export default class App extends Component
   }
 
   onNewClickHandler = (current, data) => {
-    let {data: records} = this.state
+    const records = [...this.state.data]
     const val = current + 1;
 
     if(data) {
@@ -59,7 +59,7 @@ export default class App extends Component
   }
 
   undoLastDrawing () {
-    const currentItem = this.state.data.slice(-1)
+    const currentItem = this.state.data[this.state.data.length -1]
     
     this.setState({currentItem})
   }
