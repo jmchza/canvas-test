@@ -93,9 +93,9 @@ export default class App extends Component
             </div>
           </div>
         </div>
-        <div style={{float:'left', marginRight:20, border:'1px solid #d3d3d3'}}>
+        <div style={{marginRight:20, marginLeft: 20, border:'1px solid #d3d3d3'}}>
           <Pad
-            width={1400}
+            width={1200}
             height={500}
             size={size}
             color={color}
