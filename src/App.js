@@ -79,7 +79,7 @@ export default class App extends Component
             <Button isEnable={true} type="btn btn-danger button" value="&nbsp;" onClickHandlker={(e) => this.setState({color: 'red'})}/>
             <Button isEnable={true} type="btn btn-dark button" value="&nbsp;" onClickHandlker={(e) => this.setState({color: 'black'})}/>
             
-            <Button isEnable={true} type="btn btn-outline-success button" value="Undo last click" 
+            <Button type="btn btn-outline-success button" value="Undo last click" 
               onClickHandlker={this.undoLastDrawing} isEnable={enableUndo}/>
             <Button isEnable={true} type="btn btn-outline-success button" value="save" 
               onClickHandlker={this.saveHandler}/>
