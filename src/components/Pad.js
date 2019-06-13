@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import Pencil, { TOOL_PENCIL } from './Pencil';
 import PropTypes from 'prop-types';
 
-export const toolsMap = {
-  [TOOL_PENCIL]: Pencil,
-};
-
 export default class Pad extends Component {
 
   tool = null;
@@ -41,13 +37,11 @@ export default class Pad extends Component {
     debounceTime: 1000,
     animate: true,
     tool: TOOL_PENCIL,
-    toolsMap,
     data: []
   };
 
   constructor(props) {
     super(props);
-    this.initTool = this.initTool.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -56,8 +50,7 @@ export default class Pad extends Component {
   componentDidMount() {
     this.canvas = document.getElementById('miCanvas')
     this.ctx = this.canvas.getContext('2d');
-    this.initTool(this.props.tool);
-
+    this.tool = Pencil(this.ctx)
   }
 
   shouldComponentUpdate({ tool, items, data, currentItem }){
@@ -88,13 +81,8 @@ export default class Pad extends Component {
     return true
   }
 
-  initTool(tool) {
-    this.tool = this.props.toolsMap[tool](this.ctx);
-  }
-
   onMouseDown(e) {
     this.tool.onMouseDown(...this.getCursorPosition(e), this.props.color, this.props.size, this.props.fillColor);
-    
   }
 
   onMouseMove(e) {

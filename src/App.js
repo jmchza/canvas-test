@@ -99,9 +99,7 @@ export default class App extends Component
             height={500}
             size={size}
             color={color}
-            // fillColor={fill ? fillColor : ''}
             items={items}
-            tool={tool}
             current={clicks}
             onNewClickHandler={this.onNewClickHandler}
             data={data}
