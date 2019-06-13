@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Pencil, { TOOL_PENCIL } from './Pencil';
 import PropTypes from 'prop-types';
 
-export const toolsMap = {
-  [TOOL_PENCIL]: Pencil,
-};
-
 export default function Pad(props){
   const [tool, setTool] = useState(null);
   const [interval, setInterval] = useState(null);
@@ -60,12 +56,6 @@ export default function Pad(props){
     ];
   }
 
-  // function onDebouncedMove() {
-  //   if (typeof tool.onDebouncedMouseMove == 'function' && props.onDebouncedItemChange) {
-  //     props.onDebouncedItemChange.apply(null, tool.onDebouncedMouseMove());
-  //   }
-  // }
-
   function onMouseUp(e) {
     const data = tool.onMouseUp(...getCursorPosition(e));
     
@@ -90,7 +80,6 @@ export default function Pad(props){
     const { width, height, canvasClassName } = props;
     return (
       <canvas id="myCanvas"
-        // ref={props.canvasRef}
         className={canvasClassName}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
@@ -134,6 +123,5 @@ Pad.defaultProps = {
   debounceTime: 1000,
   animate: true,
   tool: TOOL_PENCIL,
-  toolsMap,
   data: []
 };
