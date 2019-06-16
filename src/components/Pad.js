@@ -63,22 +63,17 @@ export default class Pad extends Component {
       }
       
       this.props.resetCurrent()
+      return true
     }
     
-    items
-      .filter(item => this.props.items.indexOf(item) === -1)
-      .forEach(item => {
-        this.tool.draw(item, this.props.animate);
-      });
-
     if(data && data.length){
       for (let obj of data){
-        
         this.tool.draw(obj[0], this.props.animate);
       }
+      return true
     }
 
-    return true
+    return false
   }
 
   onMouseDown(e) {
