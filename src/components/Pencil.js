@@ -58,18 +58,12 @@ export default (context) => {
     return [item];
   };
 
-  const draw = (item, animate) => {
-    let time = 0;
+  const draw = (item) => {
     let i = 0;
     const j = item.points.length;
     for (i, j; i < j; i++) {
       if (!item.points[i - 1]) continue;
-      if (animate) {
-        setTimeout(drawLine.bind(null, item, item.points[i - 1], item.points[i]), time);
-        time += 10;
-      } else {
-        drawLine(item, item.points[i - 1], item.points[i]);
-      }
+      drawLine(item, item.points[i - 1], item.points[i]);
     }
   };
 

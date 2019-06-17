@@ -24,6 +24,7 @@ export default class App extends Component
 
     this.saveHandler = this.saveHandler.bind(this);
     this.undoLastDrawing = this.undoLastDrawing.bind(this);
+    this.onNewClickHandler = this.onNewClickHandler.bind(this)
   }
 
   componentDidMount() {
@@ -36,11 +37,11 @@ export default class App extends Component
     this.setState({total: total ? total : 0})
   }
 
-  onNewClickHandler = (current, data) => {
-    const records = [...this.state.data]
-    const val = current + 1;
-
+  onNewClickHandler = (data) => {
+    const val = this.state.clicks + 1;
+    
     if(data) {
+      const records = [...this.state.data]
       records.push(data)
       
       this.setState({clicks: val, data: records, undoEnable: true})
@@ -48,6 +49,7 @@ export default class App extends Component
       this.setState({clicks: val})
     }
 
+    return 'gold'
   }
 
   saveHandler (){
@@ -69,7 +71,7 @@ export default class App extends Component
   }
 
   render() {
-    const { tool, size, color, items, clicks, data, currentItem, undoEnable } = this.state;
+    const { size, color, items, clicks, data, currentItem, undoEnable } = this.state;
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'stretch',}}>
@@ -99,15 +101,12 @@ export default class App extends Component
             height={500}
             size={size}
             color={color}
-            // fillColor={fill ? fillColor : ''}
             items={items}
-            tool={tool}
             current={clicks}
             onNewClickHandler={this.onNewClickHandler}
             data={data}
             currentItem={currentItem}
             resetCurrent={this.resetCurrent}
-            canvasRef={el => this.canvasRef = el}
           />
         </div>
         

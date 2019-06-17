@@ -3,13 +3,12 @@ import Pencil, { TOOL_PENCIL } from './Pencil';
 import PropTypes from 'prop-types';
 
 export default function Pad(props){
-  const [tool, setTool] = useState(null);
-  const [interval, setInterval] = useState(null);
+  const {currentItem, data, width, height, canvasClassName} = props
+  const [tool, setTool] = useState(props.tool);
+  // const [interval, setInterval] = useState(null);
 
   useEffect(() =>{
-    const g = document.getElementById('myCanvas')
-    const ctx = g.getContext('2d');
-    setTool(Pencil(ctx))
+    setTool(Pencil(getCtx()))
   }, [])
   
   function getCtx(){
@@ -18,35 +17,27 @@ export default function Pad(props){
   }
 
   useEffect(()=>{
-    if(props.currentItem && props.currentItem.length){
-      props.data.pop()
-      getCtx().clearRect(0,0, props.width, props.height)
+    if(currentItem && currentItem.length){
+      data.pop()
+      getCtx().clearRect(0,0, width, height)
   
-      for (let obj of props.data){
+      for (let obj of data){
         tool.draw(obj[0], props.animate);
       }
       
       props.resetCurrent()
     }
     
-  }, [props.currentItem])
+  }, [currentItem])
 
   useEffect(() => {
-    if(props.data && props.data.length){
-      for (let obj of props.data){
+    if(data && data.length){
+      for (let obj of data){
         tool.draw(obj[0], props.animate);
       }
     }
-  }, [props.data])
+  }, [data])
 
-  useEffect(() => {
-    props.items
-    .filter(item => props.items.indexOf(item) === -1)
-    .forEach(item => {
-      // tool(item.tool);
-      tool.draw(item, props.animate);
-    }, [props.items]);
-  })
 
   function getCursorPosition(e) {
     const { top, left } = document.getElementById('myCanvas').getBoundingClientRect();
@@ -59,13 +50,7 @@ export default function Pad(props){
   function onMouseUp(e) {
     const data = tool.onMouseUp(...getCursorPosition(e));
     
-    data && data[0] && props.onCompleteItem && props.onCompleteItem.apply(null, data);
-    if (props.onDebouncedItemChange) {
-      clearInterval(interval);
-      setInterval(null)
-    }
-    
-    props.onNewClickHandler(props.current, data)
+    props.onNewClickHandler(data)
   }
 
   function onMouseMove(e) {
@@ -77,7 +62,6 @@ export default function Pad(props){
     tool.onMouseDown(...getCursorPosition(e), props.color, props.size, props.fillColor);
   }
 
-    const { width, height, canvasClassName } = props;
     return (
       <canvas id="myCanvas"
         className={canvasClassName}
@@ -97,20 +81,13 @@ Pad.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   items: PropTypes.array.isRequired,
-  animate: PropTypes.bool,
   canvasClassName: PropTypes.string,
   color: PropTypes.string,
   fillColor: PropTypes.string,
   size: PropTypes.number,
-  tool: PropTypes.string,
-  toolsMap: PropTypes.object,
-  onItemStart: PropTypes.func, 
-  onEveryItemChange: PropTypes.func, 
-  onDebouncedItemChange: PropTypes.func, 
-  onCompleteItem: PropTypes.func, 
-  debounceTime: PropTypes.number,
   current: PropTypes.number,
-  data: PropTypes.array
+  data: PropTypes.array,
+  onNewClickHandler: PropTypes.func
 };
 
 Pad.defaultProps = {
@@ -121,7 +98,5 @@ Pad.defaultProps = {
   fillColor: '',
   canvasClassName: 'canvas',
   debounceTime: 1000,
-  animate: true,
-  tool: TOOL_PENCIL,
   data: []
 };
