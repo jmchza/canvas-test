@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import Pencil, { TOOL_PENCIL } from './Pencil';
+// import Pencil, { TOOL_PENCIL } from './Pencil';
 import PropTypes from 'prop-types';
+import { v4 } from 'uuid';
 
 export default class Pad extends Component {
 
   tool = null;
   interval = null;
+  stroke
+  points = [];
 
   static propTypes = {
     width: PropTypes.number,
@@ -14,15 +17,8 @@ export default class Pad extends Component {
     animate: PropTypes.bool,
     canvasClassName: PropTypes.string,
     color: PropTypes.string,
-    fillColor: PropTypes.string,
     size: PropTypes.number,
-    tool: PropTypes.string,
-    toolsMap: PropTypes.object,
-    onItemStart: PropTypes.func, 
-    onEveryItemChange: PropTypes.func, 
-    onDebouncedItemChange: PropTypes.func, 
-    onCompleteItem: PropTypes.func, 
-    debounceTime: PropTypes.number,
+    // tool: PropTypes.object,
     current: PropTypes.number,
     data: PropTypes.array
   };
@@ -36,7 +32,7 @@ export default class Pad extends Component {
     canvasClassName: 'canvas',
     debounceTime: 1000,
     animate: true,
-    tool: TOOL_PENCIL,
+    // tool: TOOL_PENCIL,
     data: []
   };
 
@@ -45,21 +41,22 @@ export default class Pad extends Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    
   }
 
-  componentDidMount() {
-    this.canvas = document.getElementById('miCanvas')
-    this.ctx = this.canvas.getContext('2d');
-    this.tool = Pencil(this.ctx)
-  }
+  shouldComponentUpdate({ items, data, currentItem }){
+    // if(!this.tool){
+    //   this.ctx = this.getCtx();
+    // }
 
-  shouldComponentUpdate({ tool, items, data, currentItem }){
+    console.log('data', data, items)
+
     if(currentItem && currentItem.length){
       data.pop()
-      this.ctx.clearRect(0,0, this.canvas.width,this.canvas.height)
+      this.getCtx().clearRect(0,0, this.props.width,this.props.height)
 
       for (let obj of data){
-        this.tool.draw(obj[0], this.props.animate);
+        this.draw(obj, this.props.animate);
       }
       
       this.props.resetCurrent()
@@ -68,7 +65,7 @@ export default class Pad extends Component {
     
     if(data && data.length){
       for (let obj of data){
-        this.tool.draw(obj[0], this.props.animate);
+        this.draw(obj, this.props.animate);
       }
       return true
     }
@@ -76,33 +73,85 @@ export default class Pad extends Component {
     return false
   }
 
+  draw = (item) => {
+
+    for (let i = 0; i < item.points.length; i++) {
+      if (!item.points[i - 1]) continue;
+      this.drawLine(item, item.points[i - 1], item.points[i]);
+    }
+  };
+
+
+  drawLine = (item, start, { x, y }) => {
+    // console.log(item, start, { x, y })
+    const context = this.getCtx()
+    context.save();
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+    context.beginPath();
+    context.lineWidth = item.size;
+    context.strokeStyle = item.color;
+    context.globalCompositeOperation = 'source-over';
+    context.moveTo(start.x, start.y);
+    context.lineTo(x, y);
+    context.closePath();
+    context.stroke();
+    context.restore();
+  };
+
   onMouseDown(e) {
-    this.tool.onMouseDown(...this.getCursorPosition(e), this.props.color, this.props.size, this.props.fillColor);
+    const [x, y] = this.getCursorPosition(e)
+    
+    this.stroke = {
+      id: v4(),
+      tool: 'pencil',
+      color: this.props.color,
+      size: this.props.size,
+      points: [{ x, y }]
+    };
+    return [this.stroke];
+
   }
 
+
   onMouseMove(e) {
-    this.tool.onMouseMove(...this.getCursorPosition(e));
+    if (!this.stroke) return [];
+    const newPoint = {...this.getCursorPosition(e)};
+    const start = this.stroke.points.slice(-1)[0];
+    console.log('move', newPoint, start)
+    this.drawLine(this.stroke, start, newPoint);
+    this.stroke.points.push(newPoint);
+    this.points.push(newPoint);
+    
+    return [this.stroke];
   }
 
   onMouseUp(e) {
-    const data = this.tool.onMouseUp(...this.getCursorPosition(e));
+    if (!this.stroke) return;
+    this.onMouseMove(...this.getCursorPosition(e));
+    this.points = [];
+    const item = this.stroke;
+    this.stroke = null;
     
-    this.props.onNewClickHandler(this.props.current, data)
+    this.props.onNewClickHandler(this.props.current, item)
   }
 
   getCursorPosition(e) {
-    const { top, left } = this.canvas.getBoundingClientRect();
+    const { top, left } = this.refCanvas.getBoundingClientRect();
     return [
       e.clientX - left,
       e.clientY - top
     ];
   }
 
+  getCtx(){
+    return this.refCanvas.getContext('2d')
+  }
+
   render() {
     const { width, height, canvasClassName } = this.props;
     return (
       <canvas
-        id="miCanvas"
         className={canvasClassName}
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
@@ -110,7 +159,7 @@ export default class Pad extends Component {
         onMouseUp={this.onMouseUp}
         width={width}
         height={height}
-        
+        ref={(canvas)=>{this.refCanvas = canvas}}
       />
     );
   }

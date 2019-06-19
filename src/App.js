@@ -24,6 +24,7 @@ export default class App extends Component
 
     this.saveHandler = this.saveHandler.bind(this);
     this.undoLastDrawing = this.undoLastDrawing.bind(this);
+    this.onNewClickHandler= this.onNewClickHandler.bind(this)
   }
 
   componentDidMount() {
@@ -69,7 +70,7 @@ export default class App extends Component
   }
 
   render() {
-    const { tool, size, color, items, clicks, data, currentItem, enableUndo } = this.state;
+    const { size, color, items, clicks, data, currentItem, enableUndo } = this.state;
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'stretch',}}>
