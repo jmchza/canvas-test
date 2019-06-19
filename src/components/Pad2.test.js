@@ -14,8 +14,6 @@ describe('Pad Tests', () => {
     const wrapper = shallow(<Pad
           width={1200}
           height={500}
-          // size={size}
-          // color={color}
           items={[]}
         />);
     const obj = wrapper.find('.canvas')
@@ -23,7 +21,7 @@ describe('Pad Tests', () => {
   })
 
         
-  it('test Pad contains canvas class with Jest',  ()=>{
+  it('test Pad event::onClick with Jest + Sinon',  ()=>{
     let spyingTo = sinon.spy()
     const wrapper = mount(<Pad width={1200} height={500} items={[]} toggle={spyingTo} />);
     
@@ -32,4 +30,15 @@ describe('Pad Tests', () => {
     expect(spyingTo.called).toBe(true)
 
   })
+
+  it('test Pad event::mouseUp with Jest + sinon',  ()=>{
+    let spyingTo = sinon.spy()
+    const wrapper = mount(<Pad onNewClickHandler={spyingTo} items={[]} />);
+    
+    expect(wrapper).toMatchSnapshot()
+    wrapper.find("canvas").simulate("mouseUp")
+    expect(spyingTo.called).toBe(true)
+
+  })
+
 }); 
