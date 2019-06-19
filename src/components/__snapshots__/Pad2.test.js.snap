@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pad Tests test Pad contains canvas class with Jest 1`] = `
+<canvas
+  className="canvas"
+  height={500}
+  onClick={[Function]}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onMouseOut={[Function]}
+  onMouseUp={[Function]}
+  width={1200}
+/>
+`;

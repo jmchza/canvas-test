@@ -37,6 +37,7 @@ export default (context) => {
     if (!stroke) return [];
     const newPoint = { x, y };
     const start = stroke.points.slice(-1)[0];
+    console.log('move', newPoint, start)
     drawLine(stroke, start, newPoint);
     stroke.points.push(newPoint);
     points.push(newPoint);

@@ -44,19 +44,14 @@ export default class Pad extends Component {
     
   }
 
-  shouldComponentUpdate({ items, data, currentItem }){
-    // if(!this.tool){
-    //   this.ctx = this.getCtx();
-    // }
-
-    console.log('data', data, items)
+  shouldComponentUpdate({  data, currentItem }){
 
     if(currentItem && currentItem.length){
       data.pop()
       this.getCtx().clearRect(0,0, this.props.width,this.props.height)
 
       for (let obj of data){
-        this.draw(obj, this.props.animate);
+        this.draw(obj[0], this.props.animate);
       }
       
       this.props.resetCurrent()
@@ -65,7 +60,7 @@ export default class Pad extends Component {
     
     if(data && data.length){
       for (let obj of data){
-        this.draw(obj, this.props.animate);
+        this.draw(obj[0], this.props.animate);
       }
       return true
     }
@@ -83,7 +78,6 @@ export default class Pad extends Component {
 
 
   drawLine = (item, start, { x, y }) => {
-    // console.log(item, start, { x, y })
     const context = this.getCtx()
     context.save();
     context.lineJoin = 'round';
@@ -115,23 +109,33 @@ export default class Pad extends Component {
 
 
   onMouseMove(e) {
+    this.move(...this.getCursorPosition(e));
+  }
+
+  move = (x, y) => {
     if (!this.stroke) return [];
-    const newPoint = {...this.getCursorPosition(e)};
+    const newPoint = { x, y };
     const start = this.stroke.points.slice(-1)[0];
-    console.log('move', newPoint, start)
+    
     this.drawLine(this.stroke, start, newPoint);
     this.stroke.points.push(newPoint);
     this.points.push(newPoint);
     
     return [this.stroke];
-  }
+  };
 
-  onMouseUp(e) {
+  mouseUp = (x, y) => {
     if (!this.stroke) return;
-    this.onMouseMove(...this.getCursorPosition(e));
+    this.move(x, y);
     this.points = [];
     const item = this.stroke;
     this.stroke = null;
+    return [item];
+  };
+
+  onMouseUp(e) {
+    
+    const item = this.mouseUp(...this.getCursorPosition(e));
     
     this.props.onNewClickHandler(this.props.current, item)
   }
@@ -159,6 +163,7 @@ export default class Pad extends Component {
         onMouseUp={this.onMouseUp}
         width={width}
         height={height}
+        onClick={this.props.toggle}
         ref={(canvas)=>{this.refCanvas = canvas}}
       />
     );
