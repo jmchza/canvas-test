@@ -48,5 +48,20 @@ The ap is ready to be deployed into a docker container via docker compose with a
 
 The idea is to use a reverse proxy to serve the static folder
 
+### `Relevant Documentation`
+
+https://airbnb.io/enzyme/
+https://airbnb.io/enzyme/docs/api/mount.html
+
+https://sinonjs.org/#get-started
+https://sinonjs.org/releases/v7.3.2/spies/
+https://github.com/domenic/sinon-chai
+
+`video`
+
+https://www.youtube.com/watch?v=U_Q7ss7wvoo
+
+
+https://www.leighhalliday.com/testing-react-jest-enzyme-sinon
 
 
