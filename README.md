@@ -1,4 +1,4 @@
-Prendi app
+React app + JEST and Sinon Testing
 
 ## Available Scripts
 
