@@ -36,3 +36,28 @@ exports[`Pad Tests test Pad event with Jest + sinon 1`] = `
   width={500}
 />
 `;
+
+exports[`Pad Tests test Pad event::mouseUp with Jest + sinon 1`] = `
+<canvas
+  className="canvas"
+  height={500}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onMouseOut={[Function]}
+  onMouseUp={[Function]}
+  width={500}
+/>
+`;
+
+exports[`Pad Tests test Pad event::onClick with Jest + Sinon 1`] = `
+<canvas
+  className="canvas"
+  height={500}
+  onClick={[Function]}
+  onMouseDown={[Function]}
+  onMouseMove={[Function]}
+  onMouseOut={[Function]}
+  onMouseUp={[Function]}
+  width={1200}
+/>
+`;

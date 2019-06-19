@@ -14,11 +14,9 @@ export default class Pad extends Component {
     width: PropTypes.number,
     height: PropTypes.number,
     items: PropTypes.array.isRequired,
-    animate: PropTypes.bool,
     canvasClassName: PropTypes.string,
     color: PropTypes.string,
     size: PropTypes.number,
-    // tool: PropTypes.object,
     current: PropTypes.number,
     data: PropTypes.array
   };
@@ -28,11 +26,7 @@ export default class Pad extends Component {
     height: 500,
     color: 'green',
     size: 5,
-    fillColor: '',
     canvasClassName: 'canvas',
-    debounceTime: 1000,
-    animate: true,
-    // tool: TOOL_PENCIL,
     data: []
   };
 
